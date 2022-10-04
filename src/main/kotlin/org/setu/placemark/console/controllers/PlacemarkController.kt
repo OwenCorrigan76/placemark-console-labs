@@ -13,13 +13,32 @@ class PlacemarkController {
 
     init {
         logger.info { "Launching Placemark Console App" }
-        println("Placemark Kotlin App Version 1.0")
+        println("Placemark Kotlin App Version 3.0")
+    }
+
+    fun start() {
+        var input: Int
+
+        do {
+            input = menu()
+            when (input) {
+                1 -> add()
+                2 -> update()
+                3 -> list()
+                4 -> search()
+                -99 -> dummyData()
+                -1 -> println("Exiting App")
+                else -> println("Invalid Option")
+            }
+            println()
+        } while (input != -1)
+        logger.info { "Shutting Down Placemark Console App" }
     }
 
     fun menu() :Int { return placemarkView.menu() }
 
     fun add(){
-        val aPlacemark = PlacemarkModel()
+        var aPlacemark = PlacemarkModel()
 
         if (placemarkView.addPlacemarkData(aPlacemark))
             placemarks.create(aPlacemark)
@@ -34,7 +53,7 @@ class PlacemarkController {
     fun update() {
 
         placemarkView.listPlacemarks(placemarks)
-        val searchId = placemarkView.getId()
+        var searchId = placemarkView.getId()
         val aPlacemark = search(searchId)
 
         if(aPlacemark != null) {
@@ -57,7 +76,7 @@ class PlacemarkController {
 
 
     fun search(id: Long) : PlacemarkModel? {
-        val foundPlacemark = placemarks.findOne(id)
+        var foundPlacemark = placemarks.findOne(id)
         return foundPlacemark
     }
 
