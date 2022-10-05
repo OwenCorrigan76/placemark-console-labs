@@ -1,13 +1,16 @@
 package org.setu.placemark.console.controllers
 
+// this is the boss of all the functions
+
 import mu.KotlinLogging
 import org.setu.placemark.console.models.PlacemarkMemStore
+import org.setu.placemark.console.models.PlacemarkJSONStore
 import org.setu.placemark.console.models.PlacemarkModel
 import org.setu.placemark.console.views.PlacemarkView
 
 class PlacemarkController {
 
-    val placemarks = PlacemarkMemStore()
+    val placemarks = PlacemarkJSONStore() // getting model from PlacemarkJSONStore now
     val placemarkView = PlacemarkView()
     val logger = KotlinLogging.logger {}
 
@@ -26,7 +29,8 @@ class PlacemarkController {
                 2 -> update()
                 3 -> list()
                 4 -> search()
-                -99 -> dummyData()
+                5 -> delete()
+                -9 -> dummyData()
                 -1 -> println("Exiting App")
                 else -> println("Invalid Option")
             }
@@ -49,7 +53,19 @@ class PlacemarkController {
     fun list() {
         placemarkView.listPlacemarks(placemarks)
     }
+    fun delete() {
+        placemarkView.listPlacemarks(placemarks)
+        var searchId = placemarkView.getId()
+        val aPlacemark = search(searchId)
 
+        if(aPlacemark != null) {
+            placemarks.delete(aPlacemark)
+            println("Placemark Deleted...")
+            placemarkView.listPlacemarks(placemarks)
+        }
+        else
+            println("Placemark Not Deleted...")
+    }
     fun update() {
 
         placemarkView.listPlacemarks(placemarks)

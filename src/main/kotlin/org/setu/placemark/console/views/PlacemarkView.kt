@@ -1,8 +1,9 @@
 package org.setu.placemark.console.views
-
 import org.setu.placemark.console.models.PlacemarkMemStore
+import org.setu.placemark.console.models.PlacemarkJSONStore
 import org.setu.placemark.console.models.PlacemarkModel
 
+// this is close to what's on screen
 class PlacemarkView {
 
     fun menu(): Int {
@@ -15,6 +16,7 @@ class PlacemarkView {
         println(" 2. Update Placemark")
         println(" 3. List All Placemarks")
         println(" 4. Search Placemarks")
+        println(" 5. Delete Placemark")
         println("-1. Exit")
         println()
         print("Enter Option : ")
@@ -26,7 +28,7 @@ class PlacemarkView {
         return option
     }
 
-    fun listPlacemarks(placemarks: PlacemarkMemStore) {
+    fun listPlacemarks(placemarks: PlacemarkJSONStore) {
         println("List All Placemarks")
         println()
         placemarks.logAll()

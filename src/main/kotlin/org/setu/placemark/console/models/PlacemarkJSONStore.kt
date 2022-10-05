@@ -1,5 +1,6 @@
 package org.setu.placemark.console.models
 
+// model for data
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
@@ -42,7 +43,10 @@ class PlacemarkJSONStore : PlacemarkStore {
         placemarks.add(placemark)
         serialize()
     }
-
+    override fun delete(placemark: PlacemarkModel) {
+        placemarks.remove(placemark)
+        serialize()
+    }
     override fun update(placemark: PlacemarkModel) {
         var foundPlacemark = findOne(placemark.id!!)
         if (foundPlacemark != null) {
@@ -56,12 +60,12 @@ class PlacemarkJSONStore : PlacemarkStore {
         placemarks.forEach { logger.info("${it}") }
     }
 
-    private fun serialize() {
+    private fun serialize() { // convert object to string
         val jsonString = gsonBuilder.toJson(placemarks, listType)
         write(JSON_FILE, jsonString)
     }
 
-    private fun deserialize() {
+    private fun deserialize() { // convert string to object
         val jsonString = read(JSON_FILE)
         placemarks = Gson().fromJson(jsonString, listType)
     }
